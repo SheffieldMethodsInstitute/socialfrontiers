@@ -11,6 +11,15 @@ threshold <- 1.96 #threshold is basically how many standard deviation above the 
 #merged.sf <- st_read('Data/londonlsoas_nonclipped_nongeneralised_w_nonUK_cob.shp')
 merged.sf <- readRDS('Data/londondata_LSOA.rds')
 
+#get local authorities to get smaller subset of london data for testing
+LADS <- st_read('F:/Data/MapPolygons/England/2011/England_lad_2011_gen_clipped/England_lad_2011_gen_clipped.shp')
+
+#keep only tower hamlets LSOAs
+merged.sf.sub <- merged.sf %>% 
+  filter(st_intersects(.,LADS %>% filter(NAME == 'Tower Hamlets'), sparse = F))
+
+saveRDS(merged.sf.sub,'Data/towerhamlets_LSOA.rds')
+
 ##  Test 1: The basic foreign only ----
 
 ##  Define variables
